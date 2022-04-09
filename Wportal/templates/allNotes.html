@@ -1,0 +1,13 @@
+{%extends "layout.html"%}
+
+{% block body %}
+{% if flag %}
+{% for a in allnote %}
+<h1>{{a.title}}</h1>
+<h2>{{a.subject}}</h2>
+<a href="{{a.pdf.url}}" type="button" class="btn btn-primary">Download now</a>
+{% endfor %}
+{% else %}
+<h1>No Data Found</h1>
+{% endif %}
+{% endblock %}
