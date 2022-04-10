@@ -1,13 +1,28 @@
 {%extends "layout.html"%}
 
 {% block body %}
-{% if flag %}
-{% for a in allnote %}
-<h1>{{a.title}}</h1>
-<h2>{{a.subject}}</h2>
-<a href="{{a.pdf.url}}" type="button" class="btn btn-primary">Download now</a>
-{% endfor %}
-{% else %}
+{% if allnote|length == 0 %}
 <h1>No Data Found</h1>
+{% else %}
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th scope="col">Subject</th>
+            <th scope="col">Unit</th>
+            <th scope="col">Type</th>
+            <th scope="col">Notes</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for a in allnote %}
+        <tr>
+            <td>{{a.subject}}</td>
+            <td>{{a.unit}}</td>
+            <td>{{a.title}}</td>
+            <td><a href="{{a.pdf.url}}" class="btn btn-primary">Download</a></td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
 {% endif %}
 {% endblock %}

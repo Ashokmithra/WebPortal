@@ -9,7 +9,6 @@ import json
 from django.views.decorators.csrf import csrf_exempt
 
 
-# Create your views here.
 from .forms import NoteForm
 
 
@@ -91,37 +90,6 @@ def profile(request, id):
         c2 = True
     except Student.DoesNotExist:
         c2 = False
-    # if request.method == "POST":
-    #     if(users.user_type == "Teacher"):
-    #         if(c):
-    #             obj = check
-    #             obj.qualify = request.POST['qualification']
-    #             obj.subject = request.POST['subject']
-    #             obj.experince = request.POST['expericence']
-    #         else:
-    #             obj = Teacher(
-    #                 user=request.user,
-    #                 qualify=request.POST['qualification'],
-    #                 subject=request.POST['subject'],
-    #                 experince=request.POST['expericence']
-    #             )
-    #         obj.save()
-    #     else:
-    #         if(c2):
-    #             obj2 = check2
-    #             obj2.standard = request.POST["standard"]
-    #             obj2.dob = request.POST["dob"]
-    #             obj2.age = request.POST["age"]
-    #         else:
-    #             obj2 = Student(
-    #                 user=request.user,
-    #                 standard=request.POST["standard"],
-    #                 dob=request.POST["dob"],
-    #                 age=request.POST["age"]
-    #             )
-    #         obj2.save()
-    #     return render(request, "index.html")
-    # else:
     if(users.user_type == "Teacher"):
         if(c):
             return render(request, "createProfile.html", {
@@ -138,63 +106,24 @@ def profile(request, id):
             return render(request, "createProfile.html")
 
 
-# def user(request, id):
-#     user = User.objects.get(id=id)
-#     if(user.user_type == "Teacher"):
-#         try:
-#             common = Teacher.objects.get(user=user)
-#             g = True
-#         except Teacher.DoesNotExist:
-#             g = False
-#     else:
-#         try:
-#             common = Student.objects.get(user=user)
-#             g = True
-#         except Student.DoesNotExist:
-#             g = False
-#     if(g):
-#         return render(request, "userProfile.html", {
-#             "profile": common
-#         })
-#     else:
-#         return render(request, "createProfile.html", {
-#             "profile": common
-#         })
-
-
-# def allnotes(request):
-#     allnote = Note.objects.all()
-#     return render(request, "allNotes.html", {
-#         'allnote': allnote
-#     })
-
-
-def upload(request):
-    context = {}
-    if request.method == 'POST':
-        uploaded_file = request.FILES['document']
-        fs = FileSystemStorage()
-        name = fs.save(uploaded_file.name, uploaded_file)
-        context['url'] = fs.url(name)
-        return render(request, 'createNote.html', context)
+# def upload(request):
+#     context = {}
+#     if request.method == 'POST':
+#         uploaded_file = request.FILES['document']
+#         fs = FileSystemStorage()
+#         name = fs.save(uploaded_file.name, uploaded_file)
+#         context['url'] = fs.url(name)
+#         return render(request, 'createNote.html', context)
 
 
 def filters(request):
     if request.method == "POST":
         sub = request.POST['subject']
         sta = request.POST['standard']
-        try:
-            fil = Note.objects.filter(subject=sub, standard=sta)
-            flag = True
-            return render(request, "allNotes.html", {
-                'allnote': fil,
-                'flag': flag
-            })
-        except Note.DoesNotExist:
-            flag = False
-            return render(request, "allNotes.html", {
-                'flag': flag
-            })
+        fil = Note.objects.filter(subject=sub, standard=sta)
+        return render(request, "allNotes.html", {
+            'allnote': fil,
+        })
     else:
         return render(request, "filter.html")
 
