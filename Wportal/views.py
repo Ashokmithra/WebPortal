@@ -7,16 +7,15 @@ from django.contrib.auth import authenticate, login, logout
 from django.core.files.storage import FileSystemStorage
 import json
 from django.views.decorators.csrf import csrf_exempt
-
-
+import smtplib
 from .forms import NoteForm
 
 
 def index(request):
-    if request.user.is_authenticated:
-        return render(request, "index.html")
-    else:
-        return HttpResponseRedirect(reverse("login"))
+    # if request.user.is_authenticated:
+    return render(request, "index.html")
+    # else:
+    #     return HttpResponseRedirect(reverse("login"))
 
 
 def login_view(request):
@@ -66,10 +65,23 @@ def register(request):
 
 
 def upload_file(request):
-    if request.method == 'POST':
+    if request.method == "POST":
+        title = request.POST['title']
+        subject = request.POST['subject']
+        standard = request.POST['standard']
+        unit = request.POST['unit']
+
+        filterStudent = Student.objects.filter(standard=standard)
         form = NoteForm(request.POST, request.FILES)
+
         if form.is_valid():
             form.save()
+            for i in filterStudent:
+                server = smtplib.SMTP_SSL("smtp.gmail.com", 465)
+                server.login("ashokmithra02072003@gmail.com", "ashok2003*")
+                server.sendmail("ashokmithra02072003@gmail.com",
+                                i.user.email, "Teacher post the notes")
+                server.quit()
             return redirect('index')
     else:
         form = NoteForm()

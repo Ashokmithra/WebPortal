@@ -22,10 +22,10 @@
         <div class="container-fluid">
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav">
-                    {% if user.is_authenticated%}
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'index' %}">Home</a>
                     </li>
+                    {% if user.is_authenticated%}
                     <li class="nav-item">
                         <a class="nav-link" href="{% url " profile" user.id%}">Profile</a>
                     </li>
@@ -44,9 +44,9 @@
                     <li class="nav-item">
                         <a class="nav-link login" href="{% url 'login' %}">Log In</a>
                     </li>
-                    <li class="nav-item">
+                    <!-- <li class="nav-item">
                         <a class="nav-link student" href="{% url 'register' %}">Register</a>
-                    </li>
+                    </li> -->
                     {% endif %}
                 </ul>
             </div>
@@ -54,6 +54,8 @@
     </nav>
     {% block body %}
     {%endblock%}
+
+    {% if user.is_authenticated%}
     <div class="chat-bar-collapsible">
         <button id="chat-button" type="button" class="collapsible">Chat with us!
             <i id="chat-icon" style="color: #fff;" class="fa fa-fw fa-comments-o"></i>
@@ -93,6 +95,7 @@
         </div>
 
     </div>
+    {% endif %}
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="{% static 'Wportal/chat.js' %}"></script>

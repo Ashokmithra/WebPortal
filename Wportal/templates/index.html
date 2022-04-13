@@ -1,10 +1,5 @@
 {% extends "layout.html"%}
 
 {% block body%}
-{%if user.is_authenticated%}
 <h1>Home</h1>
-{%else%}
-<h1 class="required"> LOGIN REQUIRED!!</h1>
-<h1 class="welcome">WELCOME TO OUR WEBSITE</h1>
-{%endif%}
 {%endblock%}
