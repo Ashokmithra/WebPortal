@@ -1,10 +1,10 @@
+from unicodedata import name
 from django.db import IntegrityError
 from django.shortcuts import render, redirect
 from django.http import HttpResponseRedirect, JsonResponse
 from django.urls import reverse
 from .models import User, Teacher, Student, Note
 from django.contrib.auth import authenticate, login, logout
-from django.core.files.storage import FileSystemStorage
 import json
 from django.views.decorators.csrf import csrf_exempt
 import smtplib
@@ -12,10 +12,7 @@ from .forms import NoteForm
 
 
 def index(request):
-    # if request.user.is_authenticated:
     return render(request, "index.html")
-    # else:
-    #     return HttpResponseRedirect(reverse("login"))
 
 
 def login_view(request):
@@ -66,11 +63,7 @@ def register(request):
 
 def upload_file(request):
     if request.method == "POST":
-        title = request.POST['title']
-        subject = request.POST['subject']
         standard = request.POST['standard']
-        unit = request.POST['unit']
-
         filterStudent = Student.objects.filter(standard=standard)
         form = NoteForm(request.POST, request.FILES)
 
@@ -118,16 +111,6 @@ def profile(request, id):
             return render(request, "createProfile.html")
 
 
-# def upload(request):
-#     context = {}
-#     if request.method == 'POST':
-#         uploaded_file = request.FILES['document']
-#         fs = FileSystemStorage()
-#         name = fs.save(uploaded_file.name, uploaded_file)
-#         context['url'] = fs.url(name)
-#         return render(request, 'createNote.html', context)
-
-
 def filters(request):
     if request.method == "POST":
         sub = request.POST['subject']
@@ -145,7 +128,7 @@ def searchs(request):
     if request.method == "POST":
         details = json.loads(request.body)
         s1 = details["sta"]
-        s2 = details["sub"]
+        s2 = details["sub"].title()
         try:
             store = Note.objects.filter(standard=s1, subject=s2)
             flag = True

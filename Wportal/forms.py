@@ -1,5 +1,3 @@
-from tkinter import Widget
-from turtle import width
 from django import forms
 
 from .models import Note
