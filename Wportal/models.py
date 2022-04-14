@@ -64,7 +64,14 @@ class Note(models.Model):
         ('9', '9'),
         ('10', '10')
     )
-    title = models.CharField(max_length=100)
+    NOTES_CHOICE = (
+        ('Select', 'Select'),
+        ('Questionpaper', 'Questionpaper'),
+        ('Notes', 'Notes'),
+        ('Textbook', 'Textbook'),
+        ('Studymaterial', 'Studymaterial')
+    )
+    title = models.CharField(max_length=100, choices=NOTES_CHOICE, default=0)
     subject = models.CharField(
         max_length=100, choices=SUBJECT_CHOICE, default=0)
     standard = models.CharField(

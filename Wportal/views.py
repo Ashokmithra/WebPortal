@@ -114,8 +114,17 @@ def profile(request, id):
 def filters(request):
     if request.method == "POST":
         sub = request.POST['subject']
-        sta = request.POST['standard']
-        fil = Note.objects.filter(subject=sub, standard=sta)
+        title = request.POST["title"]
+        if(request.user.user_type == "Student"):
+            user = request.user
+            gets = Student.objects.get(user=user)
+            print(gets.standard)
+            fil = Note.objects.filter(
+                subject=sub, title=title, standard=gets.standard)
+        else:
+            standard = request.POST['standard']
+            fil = Note.objects.filter(
+                subject=sub, title=title, standard=standard)
         return render(request, "allNotes.html", {
             'allnote': fil,
         })
@@ -127,10 +136,15 @@ def filters(request):
 def searchs(request):
     if request.method == "POST":
         details = json.loads(request.body)
-        s1 = details["sta"]
+        if(request.user.user_type == "Teacher"):
+            s1 = details["sta"]
+        else:
+            temp = Student.objects.get(user=request.user)
+            s1 = temp.standard
         s2 = details["sub"].title()
+        types = details["type"].title()
         try:
-            store = Note.objects.filter(standard=s1, subject=s2)
+            store = Note.objects.filter(standard=s1, subject=s2, title=types)
             flag = True
             return JsonResponse({'allnotes': [p.serialize() for p in store], 'flag': flag})
         except Note.DoesNotExist:

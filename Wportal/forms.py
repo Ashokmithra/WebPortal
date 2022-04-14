@@ -10,7 +10,7 @@ class NoteForm(forms.ModelForm):
         c = 'col-md-6 form-control'
         s = ''
         widgets = {
-            'title': forms.TextInput(attrs={'class': c, 'style': s, 'placeholder': 'eg:classNotes,QB'}),
+            'title': forms.Select(attrs={'class': c, 'style': s}),
             'subject': forms.Select(attrs={'class': c, 'style': s}),
             'standard': forms.Select(attrs={'class': c, 'style': s}),
             'unit': forms.Select(attrs={'class': c, 'style': s}),

@@ -16,6 +16,16 @@
         </select>
     </div>
     <div class="col-md-6">
+        <label for="title">Choose Title:</label>
+        <select class="form-control" name="title" type="text">
+            <option value="Questionbank">QuestionBank</option>
+            <option value="Notes">Notes</option>
+            <option value="Studymaterial">StudyMaterial</option>
+            <option value="Textbook">TextBook</option>
+        </select>
+    </div>
+    {% if user.user_type == "Teacher" %}
+    <div class="col-md-6">
         <label for="standard">Choose Standard:</label>
         <select class="form-control" name="standard" type="text">
             <option value="Null">Select</option>
@@ -31,6 +41,7 @@
             <option value="10">10</option>
         </select>
     </div>
+    {% endif %}
     <br><br>
     <button class="btn btn-primary" type="submit">Search</button>
 </form>
